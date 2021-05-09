@@ -10,7 +10,7 @@ public class test {
 		Path rawFile = Paths.get("D:\\My Folder\\Course\\CPE 593\\project\\CPE593ProjectLZMA\\raw.txt");
 		Path compressedFile = Paths.get("D:\\My Folder\\Course\\CPE 593\\project\\CPE593ProjectLZMA\\compressed.lzma");
 
-		LzmaCompressor lzmaCompressor = new LzmaCompressor(rawFile, compressedFile);
+		lzmaExample lzmaCompressor = new lzmaExample(rawFile, compressedFile);
 		lzmaCompressor.compress();
 		lzmaCompressor.decompress();
 	}

@@ -1,46 +1,46 @@
 package project;
 
-import lzma.sdk.lzma.Decoder;
-import lzma.streams.LzmaInputStream;
-import lzma.streams.LzmaOutputStream;
-import org.apache.commons.compress.utils.IOUtils;
-
 import java.io.*;
-import java.nio.file.Path;
+import java.nio.file.*;
 
-public class LzmaCompressor
-{
-    private Path rawFilePath;
-    private Path compressedFilePath;
+import org.tukaani.xz.*;
 
-    public LzmaCompressor(Path rawFilePath, Path compressedFilePath)
-    {
-        this.rawFilePath = rawFilePath;
-        this.compressedFilePath = compressedFilePath;
-    }
+enum Mode{
+	Fast(LZMA2Options.MODE_FAST),
+	Normal(LZMA2Options.MODE_NORMAL),
+	Default(LZMA2Options.PRESET_DEFAULT);
+	
+	public int m;
+	private Mode(int m) {
+		this.m = m;
+	}
+}
 
-    public void compress() throws IOException
-    {
-        try (LzmaOutputStream outputStream = new LzmaOutputStream.Builder(
-                new BufferedOutputStream(new FileOutputStream(compressedFilePath.toFile())))
-                .useMaximalDictionarySize()
-                .useMaximalFastBytes()
-                .build();
-             InputStream inputStream = new BufferedInputStream(new FileInputStream(rawFilePath.toFile())))
-        {
-            IOUtils.copy(inputStream, outputStream);
-        }
-    }
+public class LZMACompressor {
 
-    public void decompress() throws IOException
-    {
-        try (LzmaInputStream inputStream = new LzmaInputStream(
-                new BufferedInputStream(new FileInputStream(compressedFilePath.toFile())),
-                new Decoder());
-             OutputStream outputStream = new BufferedOutputStream(
-                     new FileOutputStream(rawFilePath.toFile())))
-        {
-            IOUtils.copy(inputStream, outputStream);
-        }
-    }
+	private Path in;
+	private Path out;
+	
+	//Constructor
+	public LZMACompressor(Path in, Path out){
+		this.in = in;
+		this.out = out;
+	}
+	
+	public void compress(Mode mode) throws IOException{
+		
+		try(XZOutputStream xzOut = new XZOutputStream(new FileOutputStream(out.toFile()), new LZMA2Options(mode.m))){
+			Files.copy(in, xzOut);
+		}
+		
+	}
+	
+	public static void main(String[] args) throws IOException{
+		Path rawFile = Paths.get("D:\\My Folder\\Course\\CPE 593\\project\\CPE593ProjectLZMA\\raw.txt");
+		Path compressedFile = Paths.get("D:\\My Folder\\Course\\CPE 593\\project\\CPE593ProjectLZMA\\compressed_2.lzma");
+
+		LZMACompressor lzmaCompressor = new LZMACompressor(rawFile, compressedFile);
+		lzmaCompressor.compress(Mode.Default);
+	}
+	
 }

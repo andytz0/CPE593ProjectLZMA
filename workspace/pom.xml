@@ -14,5 +14,15 @@
   		<artifactId>lzma-java</artifactId>
   		<version>1.2</version>
   	</dependency>
+  	<dependency>
+  		<groupId>org.apache.commons</groupId>
+  		<artifactId>commons-compress</artifactId>
+  		<version>1.20</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>de.knightsoft-net</groupId>
+  		<artifactId>gwt-lzma</artifactId>
+  		<version>1.2-2</version>
+  	</dependency>
   </dependencies>
 </project>
