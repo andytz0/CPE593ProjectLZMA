@@ -63,19 +63,18 @@ public class LZMACompressor {
 		}
 	}
 	
+	/*
 	public static void main(String[] args) throws Exception
 	{
 		//int num = 0;
 		Path rawFile = Paths.get("D:\\My Folder\\Course\\CPE 593\\project\\CPE593ProjectLZMA\\raw.txt");
 		Path compressedFile = Paths.get("D:\\My Folder\\Course\\CPE 593\\project\\CPE593ProjectLZMA\\compressed");
-		///*
+		
 		LZMACompressor lzmaCompressor = new LZMACompressor(rawFile, compressedFile);
 		lzmaCompressor.lzmaCompress(Mode.Default);
-		//*/
-		/*
+		
 		LZMACompressor lz = new LZMACompressor(compressedFile, rawFile);
 		lz.lzmaDecompress();
-		*/
 	}
-	
+	*/
 }
