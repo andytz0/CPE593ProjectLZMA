@@ -1,7 +1,9 @@
 package project;
 
+import java.io.*;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.*;
 
 public class test {
 	
@@ -15,8 +17,8 @@ public class test {
 //		LZMACompressor lzmaCompressor = new LZMACompressor(rawFile, compressedFile);
 //		lzmaCompressor.lzmaCompress(Mode.Default);
 		
-		LZMACompressor lz = new LZMACompressor(Paths.get(compressedFile+".lzma"), rawFile);
-		lz.lzmaDecompress();
+//		LZMACompressor lz = new LZMACompressor(Paths.get(compressedFile+".lzma"), rawFile);
+//		lz.lzmaDecompress();
 		
 //		LZMACompressor xzCompressor = new LZMACompressor(rawFile, compressedFile);
 //		xzCompressor.xzCompress(Mode.Default);
@@ -24,5 +26,27 @@ public class test {
 //		LZMACompressor xz = new LZMACompressor(Paths.get(compressedFile+".xz"), rawFile);
 //		xz.xzDecompress();
 		
+		
+		FileReader fr = new FileReader(p + "raw.txt");
+		FileWriter fw = new FileWriter(p + "converted.txt");
+		
+		String s = "";
+		int i;
+		
+		while( (i = fr.read()) != -1) {
+			s += (char)i;
+		}
+		LZMA_BST bst = new LZMA_BST();
+		bst.searchString(s);
+		fw.write(bst.getRes());
+		
+		fr.close();
+		fw.close();
+		
+		//System.out.println("res: "+bst.getRes());
+		
+//		System.out.print(bst.getString(6));
+//		System.out.print(bst.getString(12));
+//		System.out.println(bst.getString(13));
 	}
 }
