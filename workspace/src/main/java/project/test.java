@@ -11,6 +11,9 @@ public class test {
 	
 	public static void main(String[] args) throws Exception{
 		
+/*
+ * Test for LZMACompressor.java.
+		
 		Path rawFile = Paths.get(p + "new Real-Time Lossless Compression.txt");
 		Path compressedFile = Paths.get(p + "compressed");
 
@@ -25,8 +28,14 @@ public class test {
 		
 //		LZMACompressor xz = new LZMACompressor(Paths.get(compressedFile+".xz"), rawFile);
 //		xz.xzDecompress();
+ * 
+ */
 		
 		
+		
+/*
+ * Test for LZMA_BST.java
+ */
 		FileReader fr = new FileReader(p + "raw.txt");
 		FileWriter fw = new FileWriter(p + "converted.txt");
 		
@@ -36,17 +45,15 @@ public class test {
 		while( (i = fr.read()) != -1) {
 			s += (char)i;
 		}
+		System.out.println(s);
 		LZMA_BST bst = new LZMA_BST();
-		bst.searchString(s);
+		bst.convertString(s);
+		bst.printDict();
+		
 		fw.write(bst.getRes());
 		
 		fr.close();
 		fw.close();
 		
-		//System.out.println("res: "+bst.getRes());
-		
-//		System.out.print(bst.getString(6));
-//		System.out.print(bst.getString(12));
-//		System.out.println(bst.getString(13));
 	}
 }

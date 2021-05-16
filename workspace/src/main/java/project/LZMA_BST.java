@@ -1,7 +1,5 @@
 package project;
 
-import java.util.*;
-
 public class LZMA_BST {
 
 	private String s;
@@ -11,8 +9,6 @@ public class LZMA_BST {
 	private BST dict = new BST();
 	
 	private static int minMatchSize = 2;
-	private static int maxMatchSize = 6;
-	private static int buffSize = 4;
 	private static int dictSize = 6;
 	
 	//empty constructor
@@ -21,20 +17,25 @@ public class LZMA_BST {
 	}
 	
 	//constructor with input string
-	public LZMA_BST(int minMatchSize, int maxMatchSize, int buffSize, int dictSize){
+	public LZMA_BST(int minMatchSize, int dictSize){
 		LZMA_BST.minMatchSize = minMatchSize;
-		LZMA_BST.maxMatchSize = maxMatchSize;
-		LZMA_BST.buffSize = buffSize;
 		LZMA_BST.dictSize = dictSize;
 	}
 	
-	public void searchString(String s) {
+	//give a input string and convert it.
+	public void convertString(String s) {
 		this.s = s;
 		buildDict(s.charAt(0)+"", "", 0);
 	}
 	
 	
-	//aacaa c
+	/*
+	 * Recursively check input string values, starting from first char
+	 * if a new string value(target) is found, add it to dictionary
+	 * target size is limited by dictSize
+	 * if the following string has same content in dictionary, convert it.
+	 * next string has a minMatchSize limit
+	 */
 	private void buildDict(String target, String next, int index) {
 		
 		if( !dict.contains(target) ) addToDict(target);
@@ -45,7 +46,13 @@ public class LZMA_BST {
 		
 		
 		index++;
+		//if index increment to the length of input string s
+		//convert the last segment of string and exit function.
 		if(index >= s.length()) {
+			if( dict.contains(target+next) ) {
+				convert(target+next);
+				return;
+			}
 			if( !dict.contains(next) ) addToDict(next);
 			convert(target);
 			convert(next);
@@ -53,10 +60,14 @@ public class LZMA_BST {
 		}
 		
 			
+		//next get new char from input string s when
+		//next is empty or next is identical to the first few chars of target.
 		if(next.isEmpty() || (	next.length() < target.length() 
 							 && target.substring(0, next.length()).equals(next)) ) {
 			
 			next = next.concat(s.charAt(index)+"");
+			
+		//update target until dictSize, then update next
 		}else {
 			if(target.length() < dictSize) {
 				target = target.concat(next.charAt(0)+"");
@@ -67,51 +78,72 @@ public class LZMA_BST {
 					index -= next.length() - 1;
 					next = next.charAt(1) + "";
 				}
+				
 			//if target size is larger than the limited dictSize, reset target
 			}else {
 				convert(target);
-				index --;
+				if(next.equals(target)) {
+					convert(next);
+				}else {
+					convert(next.substring(0, next.length()-1));
+					index --;
+				}
+				
 				target = s.charAt(index)+"";
 				next = "";
 			}
 			
 		}
 		
+		//System.out.println(target +" : " + next+" : "+index+" "+s.charAt(index));
 		buildDict(target, next, index);
 	}
 	
+	//insert a new node to BST
 	private void addToDict(String str) {
-		//System.out.println("add: "+str);
 		dict.insert(str);
 	}
 	
+	//get the key corresponding to the value in BST, here key is a integer, similar to encode/encrypt
 	public void convert(String str) {	
-		//System.out.println("convert: "+str+" : "+dict.getKey(str));
 		res += dict.getKey(str) + " ";
 	}
 	
+	//get the String result of conversion
 	public String getRes() {
 		return res;
 	}
 	
+	//get String result of dict (BST inorder, not in key order)
 	public void printDict() {
-		System.out.println(dict.toString());
+		//dict.print2D();
+		System.out.println(dict.size()+" dict: "+dict.toString());
 	}
 	
+	//get String value by given key
 	public String getString(int key) {
 		return dict.getVal(key);
 	}
 	
+	public String getLongestMatch() {
+		return longestMatch;
+	}
+	
+	
+	//For test
+	/*
 	public static void main(String[] args) {
 		
-		String s = "What do you think about when I tell a word \"compression\"? If you currently study computer science, you probably think about some details of algorithms like RLE, Huffman coding or Burrows-Wheeler transform. If not, then you surely associate compression with archive file formats such as ZIP and RAR. But there is something in between - a kind of libraries that let you compress some data - implement a compression algorithm but do not provide ready file format to pack multiple files and directories into one archive. Such library is useful in gamedev for creating VFS (Virtual File System). Probably the most popular one is zlib - a free C library that implements Deflate algorithm. I've recently discovered another one - LZMA. Its SDK is also free (public domain) and the basic version is a small C library (C++, C# and Java API-s are also available, as well as some additional tools). The library uses LZMA algorithm (Lempel–Ziv–Markov chain algorithm, same as in 7z archive format), which has better compression ratio than Deflate AFAIK. So I've decided to start using it. Here is what I've learned:";
-		
+		String s = "What do you think about when I tell a word \"compression\"?";
 		
 		LZMA_BST bst = new LZMA_BST();
-		bst.searchString(s);
+		bst.convertString(s);
+		
+		bst.printDict();
 		System.out.println("res: "+bst.getRes());
-		System.out.println(s);
+		//System.out.println(bst.getString(6) +" "+ bst.getString(5)+" "+ bst.getString(12)+" "+bst.getString(13));
 		
 		
 	}
+	*/
 }

@@ -1,10 +1,15 @@
 package project;
 
+/*
+ * This file uses xz library for java
+ * https://tukaani.org/xz/xz-javadoc/org/tukaani/xz/package-summary.html
+ */
+
 import java.io.*;
 import java.nio.file.*;
-
 import org.tukaani.xz.*;
 
+//Set 3 mode enum values for compression
 enum Mode{
 	
 	Fast(LZMA2Options.MODE_FAST),
@@ -13,7 +18,7 @@ enum Mode{
 	
 	public int m;
 	
-	private Mode(int m)
+	Mode(int m)
 	{
 		this.m = m;
 	}
@@ -30,6 +35,7 @@ public class LZMACompressor {
 		this.out = out;
 	}
 	
+	//Use lZMA and fileOutputStream to get compressed content
 	public void lzmaCompress(Mode mode) throws Exception
 	{
 		out = Paths.get(out+".lzma");
@@ -40,6 +46,7 @@ public class LZMACompressor {
 		}
 	}
 	
+	//Use lZMA and fileInputStream to Decompress
 	public void lzmaDecompress() throws Exception
 	{
 		try(LZMAInputStream lzmaIn = new LZMAInputStream(new FileInputStream(in.toFile()), 100000)){
@@ -47,6 +54,7 @@ public class LZMACompressor {
 		}
 	}
 	
+	//Use XZ and fileOutputStream to get compressed content
 	public void xzCompress(Mode mode) throws Exception
 	{
 		out = Paths.get(out+".xz");
@@ -56,6 +64,7 @@ public class LZMACompressor {
 		}
 	}
 	
+	//Use XZ and fileInputStream to Decompress
 	public void xzDecompress() throws Exception
 	{	
 		try(XZInputStream xzIn = new XZInputStream(	new FileInputStream(in.toFile()), 100000)){
