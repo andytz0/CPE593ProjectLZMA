@@ -118,14 +118,14 @@ public class BST {
 			B = A.left;
 			A.left = B.right;
 			B.right = A;
-			lh--;
+			if(lh > 0) lh--;
 			rh++;
 		}else {
 			B = A.right;
 			A.right = B.left;
 			B.left = A;
 			lh++;
-			rh--;
+			if(rh > 0) rh--;
 		}	
 		//System.out.println(A.val+":"+B.val+" lh: "+lh+" rh: "+rh+" rotate dir:"+ dir);
 		return B;

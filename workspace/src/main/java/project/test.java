@@ -55,5 +55,26 @@ public class test {
 		fr.close();
 		fw.close();
 		
+		
+
+		
+/*
+ * Test for BST
+		
+		
+		BST bst = new BST();
+		
+		bst.insert("a");
+		bst.insert("b");
+		bst.insert("c");
+		bst.insert("d");
+		bst.insert("e");
+		
+		System.out.println(bst.toString());
+		bst.print2D();
+		
+ */		
+		
+		
 	}
 }

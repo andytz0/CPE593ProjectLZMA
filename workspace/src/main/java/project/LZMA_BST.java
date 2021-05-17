@@ -105,7 +105,7 @@ public class LZMA_BST {
 	}
 	
 	//get the key corresponding to the value in BST, here key is a integer, similar to encode/encrypt
-	public void convert(String str) {	
+	private void convert(String str) {	
 		res += dict.getKey(str) + " ";
 	}
 	
@@ -131,19 +131,19 @@ public class LZMA_BST {
 	
 	
 	//For test
-	/*
+	
 	public static void main(String[] args) {
 		
-		String s = "What do you think about when I tell a word \"compression\"?";
+		String s = "accaacabbacbb";
 		
 		LZMA_BST bst = new LZMA_BST();
 		bst.convertString(s);
 		
 		bst.printDict();
 		System.out.println("res: "+bst.getRes());
-		//System.out.println(bst.getString(6) +" "+ bst.getString(5)+" "+ bst.getString(12)+" "+bst.getString(13));
+		System.out.println(bst.getString(6) +""+ bst.getString(1)+""+ bst.getString(10)+""+bst.getString(8));
 		
 		
 	}
-	*/
+	
 }
